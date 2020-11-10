@@ -46,6 +46,7 @@ def render_resources():
     return render_template('resources.html')
 
 
+@app.route('/', methods=['GET'])
 @app.route('/recs', methods=['GET'])
 def render_html():
     return render_template('get_inputs.html')
@@ -67,3 +68,7 @@ def make_recs():
 
     recs = p.get_recs('static/'+img_path)
     return render_template('show_rec_imgs.html', img_path=url_for('static', filename=img_path), images=recs[0], urls=recs[2])
+
+
+if __name__ == '__main__':
+    app.run(port=5000, debug=True)
