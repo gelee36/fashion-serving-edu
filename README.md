@@ -39,11 +39,9 @@ recs = fashion.get_recs(img_path)
 * [Annoy](https://github.com/spotify/annoy) - Efficient Approximate Nearest Neighbors library
 
 ## Files
-* [Notebooks_CNNs](https://github.com/MsJacksonIYN/Mod5_FashionRecommendations/tree/master/Notebooks_CNNs) - Source code (.ipynb) for training CNNs
-* [Notebooks_Recommender](https://github.com/MsJacksonIYN/Mod5_FashionRecommendations/tree/master/Notebooks_Recommender) - Source code (.ipynb) for building Annoy index and recommendations
-* [Outfits](https://github.com/MsJacksonIYN/Mod5_FashionRecommendations/tree/master/Outfits) - Example images that can be used to test the recommendation system 
-* [recommender_app.py](https://github.com/MsJacksonIYN/Mod5_FashionRecommendations/blob/master/recommender_app.py) - Spins up a Flask App to serve recommendations 
-* [predict.py](https://github.com/MsJacksonIYN/Mod5_FashionRecommendations/blob/master/predict.py) - Recommendation System
+* [Outfits](https://github.com/sds-arch-cert/Fasion_serving_edu/tree/main/Outfits) - Example images that can be used to test the recommendation system 
+* [recommender_app.py](https://github.com/sds-arch-cert/Fasion_serving_edu/blob/main/recommender_app.py) - Spins up a Flask App to serve recommendations 
+* [predict.py](https://github.com/sds-arch-cert/Fasion_serving_edu/blob/main/predict.py) - Recommendation System
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
