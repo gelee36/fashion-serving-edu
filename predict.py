@@ -1,68 +1,62 @@
+from sklearn.metrics.pairwise import pairwise_distances
+import numpy as np
 import pandas as pd
 import os
+import cv2
+import tensorflow as tf
+from tensorflow.keras import Model
+from tensorflow.keras.models import save_model, load_model
+from tensorflow.keras.applications.resnet50 import ResNet50
+from tensorflow.keras.preprocessing import image
+from tensorflow.keras.applications.resnet50 import preprocess_input, decode_predictions
+from tensorflow.keras.layers import GlobalMaxPooling2D
 
-from fastai import *
 from fastai.vision import *
 from fastai.callbacks import *
 
-from annoy import AnnoyIndex
-
+model = load_model("./recommender")
+DATASET_PATH = "./myntradataset/"
+df = pd.read_csv(DATASET_PATH + "styles.csv", nrows=5000, error_bad_lines=False)
 
 class Predict():
     def __init__(self):
-        print("About to download")
-        # data_path = untar_data(
-        #     'https://womens-fashion-recommender.s3.us-east-2.amazonaws.com/models', data=False)
-        # print("Finished downloading")
-        # data_path = os.path.abspath(os.path.join(data_path, os.pardir))
-        # cat_learner = load_learner(
-        #     path=data_path, file='cat-rn50-size150-fr4-unfr2-fr4-unfr4.pkl')
-        # texture_learner = load_learner(
-        #     path=data_path, file='texture-resnet50-size150-fr12-unfr4.pkl')
-        # fabric_learner = load_learner(
-        #     path=data_path, file='fabric-resnet50-size150-fr5-unfr4.pkl')
-        # parts_learner = load_learner(
-        #     path=data_path, file='parts-resnet50-size150-fr5-unfr4.pkl')
-        # shape_learner = load_learner(
-        #     path=data_path, file='shape-resnet50-size150-fr5-unfr4.pkl')
-        # self.all_cnns = [cat_learner, texture_learner,
-        #                  fabric_learner, parts_learner, shape_learner]
-        #
-        # self.rtr_inventory = AnnoyIndex(512*len(self.all_cnns))
-        # self.rtr_inventory.load(os.path.join(
-        #     data_path, 'rtr_inventory_5cnn.ann'))
-        # with open(os.path.join(data_path, 'rtr_images.pkl'), 'rb') as f:
-        #     self.rtr_images = pickle.load(f)
-        # self.rtr_df = pd.read_csv(os.path.join(
-        #     data_path, 'rtr_df.csv'), index_col='img_name')
+        print("Load Models")
 
-    # returns the embeddings for a single image,
-    # from a single given CNN's last FC layer
-    def get_embeddings_for_image(self, cnn, img_path):
-        hook = hook_output(cnn.model[-1][-3])
-        cnn.predict(open_image(img_path))
-        hook.remove()
-        return hook.stored.cpu()[0]
+    def img_path(img):
+        return DATASET_PATH+"/images/"+img
 
-    # returns the concatenated embeddings for a single image,
-    # from the given list of CNNs' last FC layer
-    def get_combined_embeddings_for_image(self, img_path):
-        embeddings = []
-        for cnn in self.all_cnns:
-            embeddings.append(self.get_embeddings_for_image(cnn, img_path))
-        return np.concatenate(embeddings)
+    def load_image(img):
+        return cv2.imread(img_path(img))
 
-    # queries the given vector against the given ANN index
-    def query_ann_index(self, embeddings, n=5):
-        nns = self.rtr_inventory.get_nns_by_vector(
-            embeddings, n=n, include_distances=True)
-        img_paths = [self.rtr_images[i] for i in nns[0]]
-        return img_paths, nns[1]
+    def get_embedding(model, img_name):
+        img = image.load_img(img_name, target_size=(80, 60)) ## size는 유지하시고 업로드 받은 파일로 받아주세요.
+        x   = image.img_to_array(img)
+        x   = np.expand_dims(x, axis=0)
+        x   = preprocess_input(x)
+        return model.predict(x).reshape(-1).tolist()
+
+    def get_rec(get_img, top_n):
+        df2 = pd.read_csv("./embeddings.csv", error_bad_lines=False).reset_index(drop=True)
+        df2 = df2.drop(df2.columns[[0]], axis='columns')
+        df3 = df2.append(df2.iloc[-1], ignore_index=True)
+        df3.iloc[-1] = get_img
+        cosine_sim = 1-pairwise_distances(df3, metric='cosine')
+        indices = pd.Series(range(len(df)), index=df.index)
+        sim_idx    = 5000
+        sim_scores = list(enumerate(cosine_sim[sim_idx]))
+        sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+        sim_scores = sim_scores[1:top_n+1]
+        idx_rec    = [i[0] for i in sim_scores]
+        idx_sim    = [i[1] for i in sim_scores]
+        img_pth    = [str(df['id'].iloc[j]) for j in idx_rec]
+        img_pt     = [DATASET_PATH+"images/"+im+'.jpg' for im in img_pth]
+
+        return indices.iloc[idx_rec].index, idx_sim, img_pt
 
     # Get and display recs
     def get_recs(self, img_path, n=5):
-        # embedding = self.get_combined_embeddings_for_image(img_path)
-        # img_paths, sim_scores = self.query_ann_index(embedding, n)
-        # urls = [self.rtr_df.loc[img]['url'] for img in img_paths]
-        # return img_paths, sim_scores, urls
-        return
+        print("image_path : "  + img_path)
+        imgg = get_embedding(model, img_path)
+        idx_rec, idx_sim, img_pt = get_rec(imgg, n)
+
+        return idx_rec, idx_sim, img_pt

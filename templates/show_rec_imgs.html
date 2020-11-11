@@ -49,9 +49,13 @@
             {% for i in range(0,5) %}
             <div class="card">
               <div class="card-header text-capitalize">
-                {{ images[i].split("/")[-2] }}
+                {{ images[i] }}
               </div>
               <img
+                 class="card-img-top"
+                 src="{{images[i]}}"
+              />
+              <!--<img
                 class="card-img-top"
                 src="{{
                   images[i].replace(
@@ -59,15 +63,15 @@
                     'https://fashionrecs-images.samantha.codes/data/'
                   )
                 }}"
-              />
+              />-->
               <div class="card-body">
                 <h6 class="card-title text-capitalize">
                   {{ urls[i].split("/")[-1].replace("_", " ") }}
                 </h6>
               </div>
-              <div class="card-footer">
+              <!--<div class="card-footer">
                 <a href="{{ urls[i] }}" target="_blank">See Product</a>
-              </div>
+              </div>-->
             </div>
             {% endfor %}
           </div>
