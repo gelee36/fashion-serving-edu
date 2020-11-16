@@ -16,12 +16,6 @@
       crossorigin="anonymous"
     />
   </head>
-  <nav class="navbar sticky-top navbar-expand-sm navbar-dark bg-dark">
-    <a class="nav-item nav-link text-muted" href="home">Home</a>
-    <a class="nav-item nav-link text-muted" href="recs">Recommendations</a>
-    <a class="nav-item nav-link text-muted" href="data">Project Details</a>
-    <a class="nav-item nav-link text-muted" href="resources">Resources</a>
-  </nav>
   <style type="text/css">
     body {
       background: #ffe4e1b9 !important;
@@ -53,25 +47,13 @@
               </div>
               <img
                  class="card-img-top"
-                 src="{{images[i]}}"
+                 src="{{ urls[i] }}"
               />
-              <!--<img
-                class="card-img-top"
-                src="{{
-                  images[i].replace(
-                    '/data',
-                    'https://fashionrecs-images.samantha.codes/data/'
-                  )
-                }}"
-              />-->
               <div class="card-body">
                 <h6 class="card-title text-capitalize">
                   {{ urls[i].split("/")[-1].replace("_", " ") }}
                 </h6>
               </div>
-              <!--<div class="card-footer">
-                <a href="{{ urls[i] }}" target="_blank">See Product</a>
-              </div>-->
             </div>
             {% endfor %}
           </div>

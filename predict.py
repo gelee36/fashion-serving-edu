@@ -14,13 +14,16 @@ from tensorflow.keras.layers import GlobalMaxPooling2D
 from fastai.vision import *
 from fastai.callbacks import *
 
-model = load_model("./recommender")
-DATASET_PATH = "./myntradataset/"
+print("Load Models  Start")
+model = load_model("./model/recommender")
+DATASET_PATH = "./static/myntradataset/"
 df = pd.read_csv(DATASET_PATH + "styles.csv", nrows=5000, error_bad_lines=False)
+
 
 class Predict():
     def __init__(self):
-        print("Load Models")
+        print("Load Models completed")
+
 
     def img_path(img):
         return DATASET_PATH+"/images/"+img
@@ -28,15 +31,15 @@ class Predict():
     def load_image(img):
         return cv2.imread(img_path(img))
 
-    def get_embedding(model, img_name):
+    def get_embedding(self, model, img_name):
         img = image.load_img(img_name, target_size=(80, 60)) ## size는 유지하시고 업로드 받은 파일로 받아주세요.
         x   = image.img_to_array(img)
         x   = np.expand_dims(x, axis=0)
         x   = preprocess_input(x)
         return model.predict(x).reshape(-1).tolist()
 
-    def get_rec(get_img, top_n):
-        df2 = pd.read_csv("./embeddings.csv", error_bad_lines=False).reset_index(drop=True)
+    def get_rec(self, get_img, top_n):
+        df2 = pd.read_csv("./model/embeddings.csv", error_bad_lines=False).reset_index(drop=True)
         df2 = df2.drop(df2.columns[[0]], axis='columns')
         df3 = df2.append(df2.iloc[-1], ignore_index=True)
         df3.iloc[-1] = get_img
@@ -56,7 +59,7 @@ class Predict():
     # Get and display recs
     def get_recs(self, img_path, n=5):
         print("image_path : "  + img_path)
-        imgg = get_embedding(model, img_path)
-        idx_rec, idx_sim, img_pt = get_rec(imgg, n)
+        imgg = self.get_embedding(model, img_path)
+        idx_rec, idx_sim, img_pt = self.get_rec(imgg, n)
 
         return idx_rec, idx_sim, img_pt

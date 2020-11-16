@@ -52,6 +52,7 @@ def render_html():
     return render_template('get_inputs.html')
 
 
+@app.route('/', methods=['POST'])
 @app.route('/recs', methods=['POST'])
 def make_recs():
 

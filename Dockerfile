@@ -1,4 +1,4 @@
-FROM python:3.8.6
+FROM python:3.6.8
 
 ENV http_proxy http://70.10.15.10:8080
 ENV https_proxy http://70.10.15.10:8080
