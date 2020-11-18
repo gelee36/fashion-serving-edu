@@ -1,0 +1,17 @@
+version: '2.3'
+
+services:
+
+
+  fashion:    # Fashion Recommender service web pages and APIs, with backend Model servering
+     build:
+       context: ./
+     image: fashion:0.0.1
+     hostname: fashion
+     restart: on-failure
+     ports:
+       - 5000:5000
+     volumes:
+       - .:/app
+
+
