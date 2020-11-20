@@ -40,7 +40,7 @@ recs = fashion.get_recs(img_path)
 
 ## Files
 * [Outfits](https://github.com/sds-arch-cert/Fasion_serving_edu/tree/main/Outfits) - Example images that can be used to test the recommendation system 
-* [recommender_app.py](https://github.com/sds-arch-cert/Fasion_serving_edu/blob/main/recommender_app.py) - Spins up a Flask App to serve recommendations 
+* [app.py](https://github.com/sds-arch-cert/Fasion_serving_edu/blob/main/app.py) - Spins up a Flask App to serve recommendations 
 * [predict.py](https://github.com/sds-arch-cert/Fasion_serving_edu/blob/main/predict.py) - Recommendation System
 
 ## Contributing
