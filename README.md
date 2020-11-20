@@ -19,7 +19,7 @@ pip install -r requirements.txt
 To run the web server, simply execute flask with the main recommender app:
 
 ```sh
-FLASK_APP=recommender_app flask run
+flask run
 ```
 
 The main predictor can also be used independently of Flask, by calling `get_recs`:

@@ -6,7 +6,7 @@ services:
   fashion:    # Fashion Recommender service web pages and APIs, with backend Model servering
      build:
        context: ./
-     image: fashion:0.0.1
+     image: fashion
      hostname: fashion
      restart: on-failure
      ports:

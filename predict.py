@@ -14,16 +14,13 @@ from tensorflow.keras.layers import GlobalMaxPooling2D
 from fastai.vision import *
 from fastai.callbacks import *
 
-print("Load Models  Start")
-model = load_model("./model/recommender")
-DATASET_PATH = "./static/myntradataset/"
-df = pd.read_csv(DATASET_PATH + "styles.csv", nrows=5000, error_bad_lines=False)
-
-
 class Predict():
-    def __init__(self):
-        print("Load Models completed")
 
+    print("Load Models  Start")
+    model = load_model("./model/recommender")
+    DATASET_PATH = "./static/myntradataset/"
+    df = pd.read_csv(DATASET_PATH + "styles.csv", nrows=5000, error_bad_lines=False)
+    print("Load Models completed")
 
     def img_path(img):
         return DATASET_PATH+"/images/"+img
