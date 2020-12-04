@@ -1,1 +1,3 @@
 ML 모델 파일을 넣어주세요
+recommender/
+embeddings.csv
