@@ -11,8 +11,8 @@ from tensorflow.keras.preprocessing import image
 from tensorflow.keras.applications.resnet50 import preprocess_input, decode_predictions
 from tensorflow.keras.layers import GlobalMaxPooling2D
 
-from fastai.vision import *
-from fastai.callbacks import *
+# from fastai.vision import *
+# from fastai.callbacks import *
 
 print("Load Models  Start")
 model = load_model("./model/recommender")
