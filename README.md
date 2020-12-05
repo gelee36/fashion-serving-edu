@@ -1,10 +1,9 @@
-# Mod5: Fashion Recommendations
+# Fashion Recommendations
 
-A standalone HTTP web server that can recommend similar fashion outfits, based on the the [Rent the Runway](https://www.renttherunway.com/) inventory.
+A standalone HTTP web server that can recommend similar fashion outfits.
 
 Uses multiple neural networks (with a ResNet50 backbone) behind the scenes to classify inputs by {category, texture, fabric, parts, shape}. The resulting embeddings are then used to query a pre-built nearest neighbors index for similar outputs.
 
-To try the recommendation system without cloning the repo, see this [live demo](https://fashionrecs.samantha.codes/home)
 
 ## Installation
 
@@ -35,8 +34,6 @@ recs = fashion.get_recs(img_path)
 
 * [fast.ai](https://www.fast.ai/) - Deep learning library used for CNN training
 * [Flask](http://flask.pocoo.org/) - Python HTTP server
-* [DeepFashion](http://mmlab.ie.cuhk.edu.hk/projects/DeepFashion/AttributePrediction.html) - Large-scale Fashion dataset used to train the classifiers
-* [Annoy](https://github.com/spotify/annoy) - Efficient Approximate Nearest Neighbors library
 
 ## Files
 * [Outfits](https://github.com/sds-arch-cert/Fasion_serving_edu/tree/main/Outfits) - Example images that can be used to test the recommendation system 
