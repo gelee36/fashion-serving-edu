@@ -9,6 +9,13 @@ RUN apt-get update -o Acquire::http::proxy="http://70.10.15.10:8080" && apt-get 
 ADD ./ /app
 ADD requirements.txt /
 RUN pip install --proxy 70.10.15.10:8080 --upgrade pip
+
+RUN pip install --proxy 70.10.15.10:8080 /app/numpy-1.17.3-cp36-cp36m-manylinux1_x86_64.whl
+RUN pip install --proxy 70.10.15.10:8080 /app/opencv_python-4.4.0.46-cp36-cp36m-manylinux2014_x86_64.whl
+RUN pip install --proxy 70.10.15.10:8080 /app/pandas-1.1.4-cp36-cp36m-manylinux1_x86_64.whl
+RUN pip install --proxy 70.10.15.10:8080 /app/tensorflow-2.3.1-cp36-cp36m-manylinux2010_x86_64.whl
+
+
 RUN pip install --proxy 70.10.15.10:8080 -r /requirements.txt
 #RUN pip install --upgrade pip
 #RUN pip install -r /requirements.txt
